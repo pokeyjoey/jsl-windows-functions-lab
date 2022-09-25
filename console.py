@@ -49,3 +49,19 @@ print(query)
 print(pd.read_sql(query, conn))
 print()
 print()
+
+print("select each movie's year, title, duration, and calculate the average_duration for that year, and movies of the same genre.")
+print("Then calculate how each movie's runtime length deviates from the average.")
+print('Select only those movies made after 2015, whose genre is Drama or Comedy and order the results by year, genre, and duration.')
+query = """
+    SELECT year, genre, count(*) as num_movies,
+        AVG(duration) AS avg_length_per_genre,
+        AVG(duration) OVER (partition by year) AS avg_length_per_year
+    FROM movies
+    WHERE year > 2015
+    GROUP BY year, genre
+    ORDER BY year, num_movies DESC"""
+print(query)
+print(pd.read_sql(query, conn))
+print()
+print()
